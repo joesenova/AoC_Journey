@@ -4,6 +4,7 @@ import typing as t
 import sys
 from api import get_input
 import numpy as np
+from more_itertools import chunked
 
 
 def alpha_ord(line: str) -> t.List[int]:
@@ -24,13 +25,10 @@ def part1(lines: t.List[str]) -> int:
 
 def part2(lines: t.List[str]) -> int:
     """"""
-    line_grp = []
     sack_tot = []
-    for idx, line in enumerate(lines):
-        line_grp.append(alpha_ord(line))
-        if len(line_grp) == 3:
-            sack_tot.append([x for x in line_grp[0] if x in line_grp[1] and x in line_grp[2]][0])
-            line_grp = []
+    for line in map(list, chunked(lines, 3)):
+        line_grp = [alpha_ord(ln) for ln in line]
+        sack_tot.append([x for x in line_grp[0] if x in line_grp[1] and x in line_grp[2]][0])
 
     return sum(sack_tot)
 

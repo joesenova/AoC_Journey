@@ -49,3 +49,4 @@ Pillow~=9.1.0
 tornado~=6.1
 cffi~=1.15.1
 pyparsing~=3.0.8
+more_itertools
