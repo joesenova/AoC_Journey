@@ -48,7 +48,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-	get_input.main(1)
+	get_input.main(1, 2022)
 	sys.exit(main())
 
 # Win Result

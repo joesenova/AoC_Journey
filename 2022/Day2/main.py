@@ -63,7 +63,7 @@ def main():
 
 
 if __name__ == "__main__":
-    get_input.main(2)
+    get_input.main(2, 2022)
     sys.exit(main())
 
 # Win Result
