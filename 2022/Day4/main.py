@@ -23,10 +23,10 @@ def part1(lines: t.List[str]) -> int:
     for line in lines:
         set_a, set_b = get_sets_from_range(line)
         if len(set_a) > len(set_b):
-            if set(set_b) <= set(set_a):
+            if set_b <= set_a:
                 contain_count += 1
         else:
-            if set(set_a) <= set(set_b):
+            if set_a <= set_b:
                 contain_count += 1
 
     return contain_count
