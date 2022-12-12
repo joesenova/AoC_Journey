@@ -3,21 +3,15 @@ from __future__ import annotations
 import typing as t
 import sys
 from api import get_input
-from more_itertools import chunked
 
 
 def part1_2(lines: t.List[str], group: int) -> int:
     """
     :param lines:
+    :param group:
     """
-    to_check = []
-    for idx, char in enumerate(lines[0]):
-        if len(to_check) == group:
-            to_check.pop(0)
-        to_check.append(char)
-
-        if len(set(to_check)) == group:
-            return int(idx+1)
+    return [int(idx+group) for idx in range(0, len(lines[0])+1)
+            if len(set([char for char in lines[0][idx:idx+group]])) == group][0]
 
 
 def main() -> None:
