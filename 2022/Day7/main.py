@@ -35,12 +35,8 @@ def part1(lines: t.List[str]) -> int:
 
     global_dirs = get_dir_sizes(lines)
 
-    total = 0
-    for idx, size in global_dirs.items():
-        if size <= 100000:
-            total += size
-
-    return total
+    total = [size for size in global_dirs.values() if size <= 100000]
+    return sum(total)
 
 
 def part2(lines: t.List[str]) -> int:
