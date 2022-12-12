@@ -1,4 +1,4 @@
-"""AdventOfCode Day 4"""
+"""AdventOfCode Day 6"""
 from __future__ import annotations
 import typing as t
 import sys
