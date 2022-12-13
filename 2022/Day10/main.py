@@ -6,14 +6,15 @@ from api import get_input
 
 
 class Cycle:
-    def __init__(self):
+    def __init__(self, print_for_gif: bool = False):
         self.X = 1
         self.cycle_count = 0
         self.readings = {20: 0, 60: 0, 100: 0, 140: 0, 180: 0, 220: 0}
         self.crt_pixels: t.List[int] = []
-        self.crt = [["#" for _ in range(0, 40)] for _ in range(0, 6)]
+        self.crt = [[' ' for _ in range(0, 40)] for _ in range(0, 6)]
         self.crt_pixel_x = 0
         self.crt_pixel_y = 0
+        self.print_for_gif: bool = print_for_gif
 
     def run(self, instruction: str):
         instruction = [ins for ins in instruction.split(' ')]
@@ -22,14 +23,15 @@ class Cycle:
             self.noop()
         if instruction[0] == 'addx':
             self.cycle_count += 2
-            self.add_x(instruction)
+            self.addx(instruction)
 
     def _draw_pixel(self):
         """"""
-        if self.crt_pixel_x != (self.X - 1) \
-                and self.crt_pixel_x != self.X \
-                and self.crt_pixel_x != (self.X + 1):
-            self.crt[self.crt_pixel_y][self.crt_pixel_x] = " "
+        if self.crt_pixel_x in [self.X - 1, self.X, self.X + 1]:
+            char = '\x1b[6;30;42m' + ' ' + '\x1b[0m'
+            if self.print_for_gif:
+                char = '#'
+            self.crt[self.crt_pixel_y][self.crt_pixel_x] = char
 
         self.crt_pixel_x += 1
         if self.crt_pixel_x == 40:
@@ -38,12 +40,16 @@ class Cycle:
             if self.crt_pixel_y == 6:
                 self.crt_pixel_y = 0
 
+        if self.print_for_gif:
+            with open(f"cycle/{self.cycle_count}.txt", mode="w") as f:
+                f.write('\n'.join([''.join(line) for line in self.crt]))
+
     def noop(self):
         if len(self.readings) > 0:
             self.take_reading()
         self._draw_pixel()
 
-    def add_x(self, instruction: t.List[str, str]):
+    def addx(self, instruction: t.List[str, str]):
         if len(self.readings) > 0:
             self.take_reading()
 
@@ -63,12 +69,10 @@ class Cycle:
 
 
 def part1(cycle: Cycle):
-    """"""
     return sum(cycle.readings.values())
 
 
 def part2(cycle: Cycle):
-    """"""
     drawing = []
     for px_line in cycle.crt:
         drawing.append(''.join(px_line))
@@ -77,13 +81,10 @@ def part2(cycle: Cycle):
 
 def device_startup(lines: t.List[str]):
     """"""
-    instructions = []
-    for line in lines:
-        instructions.append(line)
-    cycle = Cycle()
+    cycle = Cycle(False)
 
-    for instruction in instructions:
-        cycle.run(instruction)
+    for line in lines:
+        cycle.run(line)
 
     print(f"{part1(cycle)=}")
     print("part1(cycle)=")
