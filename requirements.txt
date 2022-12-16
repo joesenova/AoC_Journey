@@ -50,3 +50,5 @@ tornado~=6.1
 cffi~=1.15.1
 pyparsing~=3.0.8
 more_itertools
+matplotlib~=3.6.2
+networkx~=2.8.8
